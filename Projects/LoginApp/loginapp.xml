@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="loginapp" default="all">
+  
+  
+  <property file="loginapp.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.war"/>
+    <include name="*.swc"/>
+    <include name="*.apk"/>
+    <include name="*.zip"/>
+    <include name="*.egg"/>
+    <include name="*.ane"/>
+    <include name="*.jar"/>
+    <include name="*.ear"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.8" value="${jdk.home.1.8}/bin"/>
+  <path id="jdk.classpath.1.8">
+    <fileset dir="${jdk.home.1.8}">
+      <include name="jre/lib/charsets.jar"/>
+      <include name="jre/lib/deploy.jar"/>
+      <include name="jre/lib/ext/access-bridge-64.jar"/>
+      <include name="jre/lib/ext/cldrdata.jar"/>
+      <include name="jre/lib/ext/dnsns.jar"/>
+      <include name="jre/lib/ext/jaccess.jar"/>
+      <include name="jre/lib/ext/jfxrt.jar"/>
+      <include name="jre/lib/ext/localedata.jar"/>
+      <include name="jre/lib/ext/nashorn.jar"/>
+      <include name="jre/lib/ext/sunec.jar"/>
+      <include name="jre/lib/ext/sunjce_provider.jar"/>
+      <include name="jre/lib/ext/sunmscapi.jar"/>
+      <include name="jre/lib/ext/sunpkcs11.jar"/>
+      <include name="jre/lib/ext/zipfs.jar"/>
+      <include name="jre/lib/javaws.jar"/>
+      <include name="jre/lib/jce.jar"/>
+      <include name="jre/lib/jfr.jar"/>
+      <include name="jre/lib/jfxswt.jar"/>
+      <include name="jre/lib/jsse.jar"/>
+      <include name="jre/lib/management-agent.jar"/>
+      <include name="jre/lib/plugin.jar"/>
+      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/rt.jar"/>
+      <include name="lib/jstl.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.8}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.8}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.8"/>
+  
+  
+  <!-- Application Server Libraries -->
+  
+  <path id="library.tomcat_8.0.30.classpath">
+    <pathelement location="C:/Program Files/apache-tomcat-8.0.30/lib/jsp-api.jar"/>
+    <pathelement location="C:/Program Files/apache-tomcat-8.0.30/lib/servlet-api.jar"/>
+  </path>
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <pathelement location="${javac2.home}/javac2.jar"/>
+    <pathelement location="${javac2.home}/jdom.jar"/>
+    <pathelement location="${javac2.home}/asm-all.jar"/>
+    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module LoginApp -->
+  
+  <dirname property="module.loginapp.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.loginapp" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.loginapp" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.loginapp" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.loginapp" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="loginapp.output.dir" value="${module.loginapp.basedir}/out/production/LoginApp"/>
+  <property name="loginapp.testoutput.dir" value="${module.loginapp.basedir}/out/test/LoginApp"/>
+  
+  <path id="loginapp.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="loginapp.module.production.classpath">
+    <path refid="${module.jdk.classpath.loginapp}"/>
+    <path refid="library.tomcat_8.0.30.classpath"/>
+    <pathelement location="${basedir}/../../../../Program Files/Java/jdk1.8.0_66/lib/jstl.jar"/>
+    <pathelement location="${basedir}/../../../../Program Files/Java/jdk1.8.0_66/lib/encoder-jsp-1.2.jar"/>
+    <pathelement location="${basedir}/../../../../Program Files/Java/jdk1.8.0_66/lib/encoder-1.1.jar"/>
+  </path>
+  
+  <path id="loginapp.runtime.production.module.classpath">
+    <pathelement location="${loginapp.output.dir}"/>
+    <pathelement location="${basedir}/../../../../Program Files/Java/jdk1.8.0_66/lib/jstl.jar"/>
+    <pathelement location="${basedir}/../../../../Program Files/Java/jdk1.8.0_66/lib/encoder-jsp-1.2.jar"/>
+    <pathelement location="${basedir}/../../../../Program Files/Java/jdk1.8.0_66/lib/encoder-1.1.jar"/>
+  </path>
+  
+  <path id="loginapp.module.classpath">
+    <path refid="${module.jdk.classpath.loginapp}"/>
+    <pathelement location="${loginapp.output.dir}"/>
+    <path refid="library.tomcat_8.0.30.classpath"/>
+    <pathelement location="${basedir}/../../../../Program Files/Java/jdk1.8.0_66/lib/jstl.jar"/>
+    <pathelement location="${basedir}/../../../../Program Files/Java/jdk1.8.0_66/lib/encoder-jsp-1.2.jar"/>
+    <pathelement location="${basedir}/../../../../Program Files/Java/jdk1.8.0_66/lib/encoder-1.1.jar"/>
+  </path>
+  
+  <path id="loginapp.runtime.module.classpath">
+    <pathelement location="${loginapp.testoutput.dir}"/>
+    <pathelement location="${loginapp.output.dir}"/>
+    <path refid="library.tomcat_8.0.30.classpath"/>
+    <pathelement location="${basedir}/../../../../Program Files/Java/jdk1.8.0_66/lib/jstl.jar"/>
+    <pathelement location="${basedir}/../../../../Program Files/Java/jdk1.8.0_66/lib/encoder-jsp-1.2.jar"/>
+    <pathelement location="${basedir}/../../../../Program Files/Java/jdk1.8.0_66/lib/encoder-1.1.jar"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.loginapp">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.loginapp">
+    <patternset refid="excluded.from.module.loginapp"/>
+  </patternset>
+  
+  <path id="loginapp.module.sourcepath">
+    <dirset dir="${module.loginapp.basedir}">
+      <include name="src/main/java"/>
+      <include name="src/main/resources"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.loginapp" depends="compile.module.loginapp.production,compile.module.loginapp.tests" description="Compile module LoginApp"/>
+  
+  <target name="compile.module.loginapp.production" depends="register.custom.compilers" description="Compile module LoginApp; production classes">
+    <mkdir dir="${loginapp.output.dir}"/>
+    <javac2 destdir="${loginapp.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.loginapp}/javac">
+      <compilerarg line="${compiler.args.loginapp}"/>
+      <bootclasspath refid="loginapp.module.bootclasspath"/>
+      <classpath refid="loginapp.module.production.classpath"/>
+      <src refid="loginapp.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.loginapp"/>
+    </javac2>
+    
+    <copy todir="${loginapp.output.dir}">
+      <fileset dir="${module.loginapp.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.loginapp.basedir}/src/main/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.loginapp.tests" depends="register.custom.compilers,compile.module.loginapp.production" description="compile module LoginApp; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.loginapp" description="cleanup module">
+    <delete dir="${loginapp.output.dir}"/>
+    <delete dir="${loginapp.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.loginapp, clean.artifact.loginapp:war_exploded" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.loginapp" description="build all modules"/>
+  
+  <target name="init.artifacts">
+    <property name="artifacts.temp.dir" value="${basedir}/__artifacts_temp"/>
+    <property name="artifact.output.loginapp:war" value="${basedir}/out/artifacts/LoginApp_war"/>
+    <property name="artifact.output.loginapp:war_exploded" value="${basedir}/out/artifacts/LoginApp_war_exploded"/>
+    <mkdir dir="${artifacts.temp.dir}"/>
+    <property name="temp.jar.path.LoginApp_war.war" value="${artifacts.temp.dir}/LoginApp_war.war"/>
+  </target>
+  
+  <target name="clean.artifact.loginapp:war_exploded" description="clean LoginApp:war exploded artifact output">
+    <delete dir="${artifact.output.loginapp:war_exploded}"/>
+  </target>
+  
+  <target name="artifact.loginapp:war" depends="init.artifacts, artifact.loginapp:war_exploded" description="Build &#39;LoginApp:war&#39; artifact">
+    <property name="artifact.temp.output.loginapp:war" value="${artifacts.temp.dir}/LoginApp_war"/>
+    <mkdir dir="${artifact.temp.output.loginapp:war}"/>
+    <zip destfile="${temp.jar.path.LoginApp_war.war}">
+      <zipfileset dir="${artifact.output.loginapp:war_exploded}"/>
+    </zip>
+    <copy file="${temp.jar.path.LoginApp_war.war}" tofile="${artifact.temp.output.loginapp:war}/LoginApp_war.war"/>
+  </target>
+  
+  <target name="artifact.loginapp:war_exploded" depends="init.artifacts, compile.module.loginapp" description="Build &#39;LoginApp:war exploded&#39; artifact">
+    <mkdir dir="${artifact.output.loginapp:war_exploded}"/>
+    <copy todir="${artifact.output.loginapp:war_exploded}">
+      <fileset dir="${basedir}/web"/>
+    </copy>
+    <mkdir dir="${artifact.output.loginapp:war_exploded}/WEB-INF"/>
+    <copy file="${basedir}/web/WEB-INF/web.xml" tofile="${artifact.output.loginapp:war_exploded}/WEB-INF/web.xml"/>
+    <mkdir dir="${artifact.output.loginapp:war_exploded}/WEB-INF"/>
+    <mkdir dir="${artifact.output.loginapp:war_exploded}/WEB-INF/classes"/>
+    <copy todir="${artifact.output.loginapp:war_exploded}/WEB-INF/classes">
+      <fileset dir="${loginapp.output.dir}"/>
+    </copy>
+  </target>
+  
+  <target name="build.all.artifacts" depends="artifact.loginapp:war, artifact.loginapp:war_exploded" description="Build all artifacts">
+    <mkdir dir="${artifact.output.loginapp:war}"/>
+    <copy todir="${artifact.output.loginapp:war}">
+      <fileset dir="${artifact.temp.output.loginapp:war}"/>
+    </copy>
+    
+    <!-- Delete temporary files -->
+    <delete dir="${artifacts.temp.dir}"/>
+  </target>
+  
+  <target name="all" depends="build.modules, build.all.artifacts" description="build all"/>
+</project>
